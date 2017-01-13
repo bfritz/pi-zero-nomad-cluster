@@ -103,6 +103,9 @@ function enable_services() {
 
     # start TTY on USB gadget serial port
     ln -s /usr/lib/systemd/system/getty@.service "$mnt/etc/systemd/system/getty.target.wants/getty@ttyGS0.service"
+
+    # disable systemd-resolved because it interferes with dhcpcd
+    rm "$mnt/etc/systemd/system/multi-user.target.wants/systemd-resolved.service"
 }
 
 function configure_boot_options() {
