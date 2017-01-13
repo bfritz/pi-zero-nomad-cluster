@@ -5,6 +5,7 @@ set -e
 DISK="$1"
 MNT="$(mktemp -d)"
 TARBALL=ArchLinuxARM-rpi-latest.tar.gz
+SSH_PUB_KEY="${SSH_PUB_KEY:-$HOME/.ssh/id_rsa.pub}"
 
 MAC_ASSIGNMENT_LOG=assignment.log
 HOST_MAC_ADDR=02:00:00:00:2c:01
@@ -121,6 +122,16 @@ function configure_boot_options() {
         "$mnt/boot/cmdline.txt"
 }
 
+function authorize_ssk_key_for_root() {
+    local mnt="$1"
+    local pubkey="$2"
+
+    mkdir -p "$mnt/root/.ssh"
+    chmod 0700 "$mnt/root/.ssh"
+    cat "$pubkey" >> "$mnt/root/.ssh/authorized_keys"
+    chmod 0600 "$mnt/root/.ssh/authorized_keys"
+}
+
 
 #[[ $EUID -eq 0 && -b "$DISK" && -w "$DISK" ]] || usage
 warning "$DISK"
@@ -130,3 +141,4 @@ install_tarball "$TARBALL" "$DISK" "$MNT"
 configure_mac_addr "$MNT"
 enable_services "$MNT"
 configure_boot_options "$MNT"
+authorize_ssk_key_for_root "$MNT" "$SSH_PUB_KEY"
