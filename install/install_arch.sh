@@ -4,6 +4,7 @@ set -e
 
 DISK="$1"
 MNT="$(mktemp -d)"
+# wget http://os.archlinuxarm.org/os/ArchLinuxARM-rpi-latest.tar.gz
 TARBALL=ArchLinuxARM-rpi-latest.tar.gz
 SSH_PUB_KEY="${SSH_PUB_KEY:-$HOME/.ssh/id_rsa.pub}"
 
