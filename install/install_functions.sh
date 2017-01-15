@@ -100,12 +100,18 @@ function enable_services() {
     rm "$mnt/etc/systemd/system/multi-user.target.wants/systemd-resolved.service"
 }
 
-function configure_boot_options() {
+function reduce_gpu_allocation() {
     local mnt="$1"
 
     # 16m for GPU
     sed -i 's/^gpu_mem=[0-9]\+$/gpu_mem=16/' \
         "$mnt/boot/config.txt"
+}
+
+function configure_boot_options() {
+    local mnt="$1"
+
+    reduce_gpu_allocation "$mnt"
 
     # enable dwc2 driver for USB gadget mode
     if ! grep -q '^dtoverlay=dwc2' "$mnt/boot/config.txt" >/dev/null; then
