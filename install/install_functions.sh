@@ -1,16 +1,3 @@
-#!/bin/bash
-
-set -e
-
-DISK="$1"
-MNT="$(mktemp -d)"
-# wget http://os.archlinuxarm.org/os/ArchLinuxARM-rpi-latest.tar.gz
-TARBALL=ArchLinuxARM-rpi-latest.tar.gz
-SSH_PUB_KEY="${SSH_PUB_KEY:-$HOME/.ssh/id_rsa.pub}"
-
-MAC_ASSIGNMENT_LOG=assignment.log
-HOST_MAC_ADDR=02:00:00:00:2c:01
-
 usage() {
     echo "sudo $0 DEVICE"
     echo "  e.g. sudo $0 /dev/mmcblk0"
@@ -69,14 +56,16 @@ function install_tarball() {
 }
 
 function _next_hw_addr() {
-    local last_in_dec last_in_hex test_mac
+    local last_in_dec last_in_hex test_mac first_hw_addr assignment_log
+    first_hw_addr="$1"
+    assignment_log="$2"
 
     for last_in_dec in {10..254}
     do
         last_in_hex=$(printf '%.2x' $last_in_dec)
-        test_mac=${HOST_MAC_ADDR/%??/$last_in_hex}
-        if ! grep -q "$test_mac" $MAC_ASSIGNMENT_LOG > /dev/null ; then
-            echo "$test_mac" | tee -a $MAC_ASSIGNMENT_LOG
+        test_mac=${first_hw_addr/%??/$last_in_hex}
+        if ! grep -q "$test_mac" "$assignment_log" > /dev/null ; then
+            echo "$test_mac" | tee -a "$assignment_log"
             return
         fi
     done
@@ -84,9 +73,11 @@ function _next_hw_addr() {
 
 function configure_mac_addr() {
     local mnt="$1"
+    local first_hw_addr="$2"
+    local log="$3"
 
     local hw_addr
-    hw_addr=$(_next_hw_addr)
+    hw_addr=$(_next_hw_addr "$first_hw_addr" "$log")
 
     cat <<EOF > "$mnt/etc/modprobe.d/gadget.conf"
 # See http://linux-sunxi.org/USB_Gadget/Ethernet#Loading_the_driver_.28on_the_device.29
@@ -135,14 +126,3 @@ function authorize_ssk_key_for_root() {
     cat "$pubkey" >> "$mnt/root/.ssh/authorized_keys"
     chmod 0600 "$mnt/root/.ssh/authorized_keys"
 }
-
-
-#[[ $EUID -eq 0 && -b "$DISK" && -w "$DISK" ]] || usage
-warning "$DISK"
-partition_disk "$DISK"
-format_partitions "$DISK"
-install_tarball "$TARBALL" "$DISK" "$MNT"
-configure_mac_addr "$MNT"
-enable_services "$MNT"
-configure_boot_options "$MNT"
-authorize_ssk_key_for_root "$MNT" "$SSH_PUB_KEY"
