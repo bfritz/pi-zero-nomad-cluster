@@ -14,7 +14,7 @@ MAC_ASSIGNMENT_LOG=assignment.log
 HOST_MAC_ADDR=02:00:00:00:2c:01
 
 
-#[[ $EUID -eq 0 && -b "$DISK" && -w "$DISK" ]] || usage
+[[ $EUID -eq 0 && -b "$DISK" && -w "$DISK" ]] || usage
 warning "$DISK"
 partition_disk "$DISK"
 format_partitions "$DISK"
