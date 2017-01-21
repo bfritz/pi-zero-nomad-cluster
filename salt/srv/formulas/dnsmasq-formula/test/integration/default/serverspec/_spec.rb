@@ -4,11 +4,11 @@ require 'serverspec'
 set :backend, :exec
 
 
-describe package('screen') do
+describe package('dnsmasq') do
   it { should be_installed }
 end
 
-describe file('/tmp/config.conf') do
+describe file('/etc/dnsmasq.conf') do
     it { should be_file }
     it { should be_mode 600 }
     it { should be_owned_by 'root' }

@@ -3,5 +3,5 @@
 
 dnsmasq:
   enabled: true
-  pkg: screen
+  pkg: dnsmasq
 

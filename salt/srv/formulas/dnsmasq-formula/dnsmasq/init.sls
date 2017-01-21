@@ -8,8 +8,5 @@ include:
   - dnsmasq.install
   - dnsmasq.config
   - dnsmasq.service
-{% else %}
-'dnsmasq-formula disabled':
-  test.succeed_without_changes
 {% endif %}
 
