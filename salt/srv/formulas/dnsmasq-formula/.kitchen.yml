@@ -3,10 +3,14 @@
 driver:
   name: vagrant
   customize: 
-    memory: 1024
+    memory: 512
 
+# See https://github.com/kitchen-salt/kitchen-salt/blob/master/provisioner_options.md
+# for kitchen-salt config options.
 provisioner:
   name: salt_solo
+  salt_bootstrap_url: https://gist.github.com/bfritz/fc19004a1b573551623ccc51eb2f26ab/raw/install_salt.sh
+  chef_bootstrap_url: https://gist.github.com/bfritz/fc19004a1b573551623ccc51eb2f26ab/raw/install_ruby.sh
   is_file_root: true
   state_top:
     base:
@@ -15,7 +19,7 @@ provisioner:
         - dnsmasq
 
 platforms:
-  - name: bento/debian-8.4
+  - name: wholebits/arch-64
 
 suites:
   - name: default

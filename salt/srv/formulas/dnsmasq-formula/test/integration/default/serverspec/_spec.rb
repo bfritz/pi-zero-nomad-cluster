@@ -8,7 +8,7 @@ describe package('screen') do
   it { should be_installed }
 end
 
-describe file('/tmp/config.conf'), :if => os[:family] == 'debian' do
+describe file('/tmp/config.conf') do
     it { should be_file }
     it { should be_mode 600 }
     it { should be_owned_by 'root' }
