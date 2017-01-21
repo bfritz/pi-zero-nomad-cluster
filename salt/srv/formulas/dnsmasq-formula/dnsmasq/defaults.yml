@@ -1,0 +1,7 @@
+# vim: ft=yaml
+# Defaults for dnsmasq
+
+dnsmasq:
+  enabled: true
+  pkg: screen
+
