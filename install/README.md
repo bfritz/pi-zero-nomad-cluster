@@ -30,3 +30,13 @@ and assuming the MicroSD card is `/dev/mmcblk0`:
     sudo -E ./install_pizero.sh /dev/mmcblk0   # WARNING!  Erases everything on `/dev/mmcblk0`!
     sudo umount /dev/mmcblk0p1
     sudo umount /dev/mmcblk0p2
+
+### For Pi3 (or Pi2)
+
+    cd pi-zero-nomad-cluster/install
+    curl -OL http://os.archlinuxarm.org/os/ArchLinuxARM-rpi-2-latest.tar.gz
+
+    export SSH_PUB_KEY=$HOME/.ssh/id_rsa.pub   # private half will have root access to Arch install
+    sudo -E ./install_pi3.sh /dev/mmcblk0      # WARNING!  Erases everything on `/dev/mmcblk0`!
+    sudo umount /dev/mmcblk0p1
+    sudo umount /dev/mmcblk0p2
