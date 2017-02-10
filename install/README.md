@@ -21,7 +21,7 @@ but might be useful for other purposes.
 After connecting empty 4gb or larger MicroSD card to host computer
 and assuming the MicroSD card is `/dev/mmcblk0`:
 
-### For Pi Zero:
+### Pi Zero:
 
     cd pi-zero-nomad-cluster/install
     curl -OL http://os.archlinuxarm.org/os/ArchLinuxARM-rpi-latest.tar.gz
@@ -31,7 +31,7 @@ and assuming the MicroSD card is `/dev/mmcblk0`:
     sudo umount /dev/mmcblk0p1
     sudo umount /dev/mmcblk0p2
 
-### For Pi3 (or Pi2)
+### Pi3 or Pi2
 
     cd pi-zero-nomad-cluster/install
     curl -OL http://os.archlinuxarm.org/os/ArchLinuxARM-rpi-2-latest.tar.gz
