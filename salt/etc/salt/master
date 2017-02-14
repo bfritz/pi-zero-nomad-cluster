@@ -3,10 +3,11 @@ root_dir: .
 file_roots:
   base:
     - srv/salt
+    - srv/formulas/dnsmasq-formula
 
 pillar_roots:
-    base:
-        - srv/pillar
+  base:
+    - srv/pillar
 
 ssh_log_file: var/log/salt/ssh
 

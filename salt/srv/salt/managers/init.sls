@@ -7,3 +7,6 @@ install_clusterhat:
     - user: root
     - group: root
     - mode: 0755
+
+include:
+  - dnsmasq
