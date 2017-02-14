@@ -1,0 +1,17 @@
+root_dir: .
+
+file_roots:
+  base:
+    - srv/salt
+
+pillar_roots:
+    base:
+        - srv/pillar
+
+ssh_log_file: var/log/salt/ssh
+
+fileserver_backend:
+  - roots
+
+nodegroups:
+  manager_group: 'm0'
