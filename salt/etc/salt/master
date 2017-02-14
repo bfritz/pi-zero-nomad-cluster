@@ -14,4 +14,4 @@ fileserver_backend:
   - roots
 
 nodegroups:
-  manager_group: 'm0'
+  manager_group: 'm*'
